@@ -1,0 +1,7 @@
+111111:Erik Sund:19910901:1000:debit account:1337.44#1001:debit account:679654.0
+111112:Henrik Kihlberg:19900929:1002:debit account:44321.0
+111113:Emil Duvander:19910911:1003:debit account:421.0#1004:debit account:123442.34
+111114:Elof Jonson:19211101:1005:debit account:42211.0#1006:debit account:34.1#1007:debit account:4432.34
+111115:Kalle Olofson:19900915
+111116:Emanuel Alsson:19950928:1008:debit account:983.2
+111117:kingen apasson:34234234:1009:debit account:66.0
