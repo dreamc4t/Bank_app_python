@@ -1,16 +1,1 @@
-111111:Erik Sund:19910901:1000:debit account:1059.44
-111112:Henrik Kihlberg:19900929:1001:debit account:6088.0#1019:debit account:6400.0
-111113:Emil Duvander:19910911:1003:debit account:17161.0#1004:debit account:1500.0
-111115:Kalle Olofson:19900915:1009:debit account:2158.0
-111116:Emanuel Alsson:19950928:1012:debit account:11677.0
-111119:Tord Yvel:19512343
-111122:Gustav Adolf:19510316:1005:debit account:1337.55
-111123:Johan Nilsson:19950317:1006:debit account:1237.0#1007:debit account:13223.0
-111124:Niklas Persson:19121212:1008:debit account:12387.0
-111125:Johan Persson:13381239:1011:debit account:948.55
-111126:Markus Johansson:19111232:1013:debit account:3123.44
-111127:Ruben Östlund:19641230:1002:debit account:1382.44#1010:debit account:12345.0
-111128:Johan Karlsson:1941:1014:debit account:987.0#1015:debit account:1335.0
-111129:Jens:19510303:1016:debit account:1337.88
-111130:Apa apasson:19320405:1017:debit account:33333.0
-111131:Johan Nilsson:19946577:1018:debit account:16000.0
+111111:Erik kinggson:19910901:1001:debit account:150.0

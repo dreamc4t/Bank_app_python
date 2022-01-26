@@ -16,6 +16,7 @@ class Account:
         self.transaction_history_list = []
         self.load_transactions_from_txt()
 
+
     def update_transaction_db(self, transaction):
         text_file = open("transactions_list.txt", 'a')
         text_file.write(transaction)
@@ -95,9 +96,14 @@ class Account:
     def print_transaction_history(self):
         if len(self.transaction_history_list) > 0:
             for rows in self.transaction_history_list:
-                line = f"Date: {rows[1]} Transaction: {rows[2]} Balance: {rows[3]}"
+                if float(rows[2]) > 0:
+                    operator = '+'
+                else:
+                    operator = ''
+                line = f"Date: {rows[1]} Transaction: {operator}{rows[2]} Balance:{rows[3]}"
                 print(line)
-            input("Press Enter to go back to account menu")
+            if len(self.transaction_history_list ) > 10:
+                input("Press Enter to go back to account menu")
 
         else:
             print("No transactions has been made with this account yet")

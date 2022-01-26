@@ -5,19 +5,21 @@ from Account import Account as acc
 class Bank:
 
     def __init__(self, name):
-        self._load()
         self.name = name
+        self._load()
 
 
     #dictionary som ska innehålla kunderna + konton
     customers_accounts_dict = {}
 
     #en räknare av hur många kunder banken har
-    customer_count = 0
+    customer_count = len(customers_accounts_dict)
 
     # ladda in kunderna samt deras konton via textfil
     def _load(self):
-        raw_data_list = open("mock_bank_data.txt").readlines()
+        # om man skulle vilja skapa ny txt för varje ny bank
+        # raw_data_list = open(f"{self.name}_mock_bank_data.txt").readlines()
+        raw_data_list = open(f"mock_bank_data.txt").readlines()
 
         #läsa in filen och föra in i customers_accounts_dict-dict
         for rows in raw_data_list:
@@ -41,8 +43,9 @@ class Bank:
 
     #Uppdaterar textfilen utifrån customers_accounts_dict
     def update_db(self):
-        text_file = open("mock_bank_data.txt", 'w')
-
+        #text_file = open(f"{str(self.name)}_mock_bank_data.txt", 'w')
+        #om man skulle vilja skapa ny txt för varje ny bank
+        text_file = open(f"mock_bank_data.txt", 'w')
         for k, v in self.customers_accounts_dict.items():
             text_file.write(f"{str(v[0]._id)}:{str(v[0].name)}:{str(v[0].pnr)}")
             if len(v) > 1:
@@ -57,6 +60,9 @@ class Bank:
 
     def load_transactions(self):
         raw_data_list = open("transactions_list.txt").readlines()
+
+    def get_name(self):
+        return self.name
 
     def update_transaction_db(self):
         text_file = open("transactions_list.txt", 'w')
@@ -105,52 +111,71 @@ class Bank:
             a = int(input("Choice: "))
             if a == 1:
                 # logga in eller öppna konto
-                print('\nHär är några exempel ur databasen för att underlätta: ')
 
                 ###För att underlätta inlogg i testversionen
-                a = []
-                count = 0
-                while count != 5 and count < self.customer_count:
-                    for _id, customers_accounts_dict in bank1.customers_accounts_dict.items():
-                        a.append([customers_accounts_dict[0].pnr])
-                        count += 1
-                        if count == 5:
-                            break
-                        if count == self.customer_count:
-                            break
-                print(a)
-                print("")
+                if len(self.customers_accounts_dict) > 0:
+                    print('\nHär är några exempel ur databasen för att underlätta: ')
+
+                    a = []
+                    count = 0
+                    while count != 5 and count < self.customer_count:
+                        for _id, customers_accounts_dict in self.customers_accounts_dict.items():
+                            a.append([customers_accounts_dict[0].pnr])
+                            count += 1
+                            if count == 5:
+                                break
+                            if count == self.customer_count:
+                                break
+                    print(a)
+                    print("")
                 ###/
 
-                flag = True
-                while flag:
-                    flag1 = False
-                    pnr = input('Enter personal number to log in: ')
-                    for k, v in self.customers_accounts_dict.items():
-                        if int(pnr) == v[0].pnr:
-                            print(f'Welcome {v[0].name} ')
-                            # kör nästa interface där konton/kontot hanteras
-                            self.bank_menu(int(pnr))
-                            flag1 = True
-                            flag = False
-                            break
-                    if flag1 == False:
-                        print("No such personal number exists in database")
-                        a = input("Try again? y/n: ")
-                        if a == 'y' or a == 'Y':
-                            continue
-                        else:
-                            flag = False
+                    flag = True
+                    while flag:
+                        flag1 = False
+                        pnr = input('Enter personal number to log in: ')
+                        for k, v in self.customers_accounts_dict.items():
+                            if int(pnr) == v[0].pnr:
+                                print(f'Welcome {v[0].name} ')
+                                # kör nästa interface där konton/kontot hanteras
+                                self.bank_menu(int(pnr))
+                                flag1 = True
+                                flag = False
+                                break
+                        if flag1 == False:
+                            print("No such personal number exists in database")
+                            a = input("Try again? y/n: ")
+                            if a == 'y' or a == 'Y':
+                                continue
+                            else:
+                                flag = False
+                else:
+                    print("There are no customers in this bank yet!")
 
 
             elif a == 2:
+
                 name = input("Your full name: ")
-                pnr = input("Your personal number: ")
+                while True:
+                    try:
+                        pnr = int(input("Your personal number: "))
+                        break
+                    except ValueError:
+                        print("Only integers allowed!")
+                        continue
+
                 while self.add_customer(name, int(pnr)) == False:
                     a = input("Try again? y/n ")
                     if a == 'y' or a == 'Y':
                         name = input("Your full name: ")
-                        pnr = input("Your personal number: ")
+                        while True:
+                            try:
+                                pnr = int(input("Your personal number: "))
+                                break
+                            except ValueError:
+                                print("Only integers allowed!")
+                                continue
+
                     else:
                         self.welcome_menu()
 
@@ -175,7 +200,7 @@ class Bank:
 
     def bank_menu(self, pnr):
 
-        for a, b in bank1.customers_accounts_dict.items():
+        for a, b in self.customers_accounts_dict.items():
             if b[0].pnr == pnr:
                 if len(b) == 1:
                     c = input("You havn't opened any accounts yet, would you like to open one? y/n: ")
@@ -201,7 +226,7 @@ class Bank:
                         temp_list += str(acc_no)
 
 
-                    a = input(f"8. Close an account\n9. Open a new account (3 max)\n0.  to log out\nChoice: ")
+                    a = input(f"7. Change/update your name\n8. Close an account\n9. Open a new account (3 max)\n0.  to log out\nChoice: ")
                     if a == str(0):
                         print("Good bye")
                         return False
@@ -212,6 +237,9 @@ class Bank:
 
                     elif a==str(9):
                         self.add_account(pnr)
+
+                    elif a == str(7):
+                        self.change_customer_name(pnr)
 
                     elif a == str(8):
                         print("\nAccounts:")
@@ -298,7 +326,11 @@ class Bank:
                 return False
 
         print(f"Welcome to {self.name}, {name}!")
-        next_id = int(k) + 1
+        if len(self.customers_accounts_dict) < 1:
+            next_id = 111111
+        else:
+            next_id = int(k) + 1
+
         customer_to_add = cus(next_id, name, pnr)
         for k, v in self.customers_accounts_dict.items():
             if next_id == int(v[0]._id):
@@ -322,7 +354,7 @@ class Bank:
                         print("- No accounts removed, customer did not have any accounts -")
 
                     for i in range(1, len(v)):
-                        print(f"Account {v[i].account_number} removed and {v[i].account_balance}kr returned to customer")
+                        print(f"Account {v[i].account_number} removed and {v[i].account_balance}kr returned to {v[0].name}")
                     return temp
                     break
             print("No customer with that ID exsists in database")
@@ -339,6 +371,7 @@ class Bank:
                 print(f"Current name is {v[0].name}")
                 new_name = input("What would you like to change it to?: ")
                 v[0].name = new_name
+                print(f"Congrats, your name is now {v[0].name}! \n")
                 return True
             else:
                 print(f"No customer with personal number {pnr} exists")
@@ -346,7 +379,7 @@ class Bank:
 
     def get_account(self, account_id):
         # loopar genom alla account_numbers:
-        for k, v in bank1.customers_accounts_dict.items():
+        for k, v in self.customers_accounts_dict.items():
             for i in range(1, len(v)):
                 if v[i].account_number == account_id:
                     print(f"Customer: {v[0].name}")
@@ -401,11 +434,6 @@ class Bank:
 
 
 
-bank1 = Bank("NordeBanke")
-#bank1.load_transactions_from_txt()
-bank1.welcome_menu()
-#bank1.update_transaction_db()
-bank1.update_db()
 
 
 
