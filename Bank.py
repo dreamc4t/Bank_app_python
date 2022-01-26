@@ -55,6 +55,21 @@ class Bank:
             text_file.write('\n')
         text_file.close()
 
+    def load_transactions(self):
+        raw_data_list = open("transactions_list.txt").readlines()
+
+    def update_transaction_db(self):
+        text_file = open("transactions_list.txt", 'w')
+        text_file.write('')
+        for k, v in self.customers_accounts_dict.items():
+            for a in range(1, len(v)):
+                print(v[a].transaction_history_list)
+
+                text_file = open("transactions_list.txt", 'a')
+                text_file.writelines(v[a].transaction_history_list)
+                text_file.write('\n')
+        text_file.close()
+
     def close_account(self, account_number):
         for k, v in self.customers_accounts_dict.items():
 
@@ -62,7 +77,9 @@ class Bank:
 
                 if account_number == v[x].account_number:
                     print(f"Account {v[x].account_number} removed and {v[x].account_balance}kr returned to {v[0].name}")
+                    v[x].remove_transaction_list()
                     del(v[x])
+
 
                     return
 
@@ -107,20 +124,24 @@ class Bank:
 
                 flag = True
                 while flag:
+                    flag1 = False
                     pnr = input('Enter personal number to log in: ')
                     for k, v in self.customers_accounts_dict.items():
                         if int(pnr) == v[0].pnr:
                             print(f'Welcome {v[0].name} ')
                             # kör nästa interface där konton/kontot hanteras
                             self.bank_menu(int(pnr))
-                            return
+                            flag1 = True
+                            flag = False
+                            break
+                    if flag1 == False:
+                        print("No such personal number exists in database")
+                        a = input("Try again? y/n: ")
+                        if a == 'y' or a == 'Y':
+                            continue
+                        else:
+                            flag = False
 
-                    print("No such personal number exists in database")
-                    a = input("Try again? y/n: ")
-                    if a == 'y' or a == 'Y':
-                        continue
-                    else:
-                        flag = False
 
             elif a == 2:
                 name = input("Your full name: ")
@@ -180,7 +201,7 @@ class Bank:
                         temp_list += str(acc_no)
 
 
-                    a = input(f"8. Close an account\n9. Open a new account (3 max)\n0.  to exit\nChoice: ")
+                    a = input(f"8. Close an account\n9. Open a new account (3 max)\n0.  to log out\nChoice: ")
                     if a == str(0):
                         print("Good bye")
                         return False
@@ -331,7 +352,6 @@ class Bank:
                     print(f"Customer: {v[0].name}")
                     v[i].print_account_info()
 
-
     def print_all_customers(self):
         for k, v in self.customers_accounts_dict.items():
             id = f"Customer-id: {v[0]._id}"
@@ -340,12 +360,51 @@ class Bank:
             print(f"%-22s %-28s %s" % (id, pnr, name))
 
 
-
+    def load_transactions_from_txt(self):
+        raw_data_list = open("transactions_list.txt").readlines()
+      #   for rows in raw_data_list:
+      #       c = rows.replace('\n', '').split(':')
+      #
+      #       for k, v in self.customers_accounts_dict.items():
+      #           for a in range(1, len(v)):
+      #               print(v[a])
+      #               # if v[a].account_number == int(c[0]):
+      #               #     print(v[a])
+      #               #
+      #
+      #
+      #
+      #   slaskList = []
+      #   slaskDict = {}
+      #   for rows in raw_data_list:
+      #       a = rows.replace('\n', '').split(':')
+      #       if len(a) >1: #skriver ut bara om den har transaktioner
+      #           print(a)
+      #    #   print(a[0]) #skriver ut bara account_number
+      #       slaskList.append(a)
+      #       slaskDict[a[0]] = "asd"
+      #
+      #   for items in slaskList:
+      #      # print(items[0]) #skriver ut alla kontonummer
+      #       if items[0] == str(1001):
+      #           print("TJOHO")
+      # #  print(slaskDict)
+      #
+      #  # print(slaskList[2][0])  # denna ger konto nummer på tredje raden
+      #
+      #  # denna skriver ut alla accounts account_number
+        for k, v in self.customers_accounts_dict.items():
+            for a in range(1, len(v)):
+                if v[a].account_number == 1003:
+                    print("HEJDUUU")
+               # print(v[a].account_number)
 
 
 
 bank1 = Bank("NordeBanke")
+#bank1.load_transactions_from_txt()
 bank1.welcome_menu()
+#bank1.update_transaction_db()
 bank1.update_db()
 
 
