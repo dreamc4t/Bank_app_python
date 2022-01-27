@@ -1,11 +1,9 @@
 from Bank import Bank as bank
 
-bank1 = bank("Nordea")
+bank1 = bank("Eriks bank")
 
 try:
-    print(bank1.name)
-    bank1.welcome_menu()
-
+    bank1.welcome_menu() #samma som run application
 except KeyboardInterrupt:
     print("Error")
 finally:

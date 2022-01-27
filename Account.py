@@ -16,7 +16,6 @@ class Account:
         self.transaction_history_list = []
         self.load_transactions_from_txt()
 
-
     def update_transaction_db(self, transaction):
         text_file = open("transactions_list.txt", 'a')
         text_file.write(transaction)
@@ -37,7 +36,6 @@ class Account:
     def remove_transaction_list(self):
         txt = open("transactions_list.txt", "r+")
         raw_data_list = txt.readlines()
-
         txt.seek(0)
         txt.truncate()
 
@@ -49,12 +47,7 @@ class Account:
                 txt.write('')
 
         txt.close()
-
         self.load_transactions_from_txt()
-
-
-
-
 
 
     def add_to_trans_hist(self, transaction):
@@ -66,7 +59,6 @@ class Account:
 
 
     # Meny
-    ### lägg till account som argument
     def account_menu(self):
         a = -1
         self.print_account_info()
@@ -109,8 +101,6 @@ class Account:
             print("No transactions has been made with this account yet")
 
     # withdraw function
-    #### def withdraw(pnr, account_id, amount)
-    #### Gör ett uttag på kontot, returnerar True om det gick bra annars False.
     def deposit(self):
         amount = input("How much to deposit?: ")
         try:
@@ -145,8 +135,6 @@ class Account:
                 return False
 
     # presentera kontot; visa kontonummer, saldo, kontotyp
-    #### def get_account(pnr, account_id)
-    #### Returnerar Textuell presentation av kontot med kontonummer som tillhör kunden (kontonummer, saldo, kontotyp).
     def print_account_info(self):
         print(f"Account number: {self.account_number}")
         print(f"Account type: \t{self.account_type}")
